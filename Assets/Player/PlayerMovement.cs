@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private LayerMask _layerMask;
     private CharacterController controller;
     [SerializeField] private float speedFactor = 10f;
     [SerializeField] private float maxSpeed = 10f;
@@ -18,6 +20,13 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
+
+    }
+
+    private void OnEnable()
+    {
+        controller.Move(Vector3.zero);
+        target = Vector3.zero;
     }
 
     void Update()
@@ -40,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit hit;
 
 
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit, 999, _layerMask))
         {
 
             target = new Vector3(hit.point.x, transform.position.y, hit.point.z);
