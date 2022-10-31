@@ -559,6 +559,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyArray: {fileID: 11400000, guid: dd7943d2c0eed324c88d5e10e76b6de9, type: 2}
+  _detectedEnemyArray: {fileID: 11400000, guid: aa57f98a9def49e44b9495987f86e9c7,
+    type: 2}
 --- !u!114 &134783870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -571,8 +573,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ede1030bb185754689734d8edf96e06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyData: {fileID: 11400000, guid: 44d7a576ff6b76746afb86922861f6d1, type: 2}
   _enemyArray: {fileID: 11400000, guid: dd7943d2c0eed324c88d5e10e76b6de9, type: 2}
+  _playerHealth: {fileID: 1146940774}
+  _enemyHealth: {fileID: 134783869}
+  _weightedValues:
+  - name: Bludgeon
+    weight: 0
+    damage: 25
+    sanityCost: 0
+    attackCost: 20
+    damageSelf: 0
+    healSelf: 0
+  - name: Stab
+    weight: 0
+    damage: 10
+    sanityCost: 0
+    attackCost: 5
+    damageSelf: 0
+    healSelf: 0
+  - name: Heal
+    weight: 0
+    damage: 0
+    sanityCost: 40
+    attackCost: 0
+    damageSelf: 0
+    healSelf: 20
+  - name: Flee
+    weight: 0
+    damage: 0
+    sanityCost: 0
+    attackCost: 0
+    damageSelf: 999
+    healSelf: 0
 --- !u!135 &134783871
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2309,8 +2341,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ede1030bb185754689734d8edf96e06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyData: {fileID: 11400000, guid: 44d7a576ff6b76746afb86922861f6d1, type: 2}
   _enemyArray: {fileID: 11400000, guid: dd7943d2c0eed324c88d5e10e76b6de9, type: 2}
+  _playerHealth: {fileID: 1146940774}
+  _enemyHealth: {fileID: 652548243}
+  _weightedValues:
+  - name: Bludgeon
+    weight: 0
+    damage: 25
+    sanityCost: 0
+    attackCost: 20
+    damageSelf: 0
+    healSelf: 0
+  - name: Stab
+    weight: 0
+    damage: 10
+    sanityCost: 0
+    attackCost: 5
+    damageSelf: 0
+    healSelf: 0
+  - name: Heal
+    weight: 0
+    damage: 0
+    sanityCost: 40
+    attackCost: 0
+    damageSelf: 0
+    healSelf: 20
+  - name: Flee
+    weight: 0
+    damage: 0
+    sanityCost: 0
+    attackCost: 0
+    damageSelf: 999
+    healSelf: 0
 --- !u!114 &652548243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2324,6 +2386,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyArray: {fileID: 11400000, guid: dd7943d2c0eed324c88d5e10e76b6de9, type: 2}
+  _detectedEnemyArray: {fileID: 11400000, guid: aa57f98a9def49e44b9495987f86e9c7,
+    type: 2}
 --- !u!1 &772742949
 GameObject:
   m_ObjectHideFlags: 0
@@ -3398,8 +3462,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaba8a70b42b80b498c53b6aafb6d85e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _detectedEnemy: {fileID: 0}
-  _enemyData: {fileID: 0}
+  _detectedEnemy: {fileID: 11400000, guid: aa57f98a9def49e44b9495987f86e9c7, type: 2}
 --- !u!114 &1146940774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5502,6 +5565,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currentStateText: {fileID: 921723867}
   _enemyArray: {fileID: 11400000, guid: dd7943d2c0eed324c88d5e10e76b6de9, type: 2}
+  _detectedEnemyArray: {fileID: 11400000, guid: aa57f98a9def49e44b9495987f86e9c7,
+    type: 2}
 --- !u!114 &1930626136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5517,7 +5582,6 @@ MonoBehaviour:
   _currentStateText: {fileID: 921723867}
   _playerTurnTextUI: {fileID: 2109125818}
   _player: {fileID: 1146940768}
-  _playerEnemyDetection: {fileID: 1146940773}
   _playerMoveSet: {fileID: 1976334796}
   _playerMoveSetButtons:
   - {fileID: 126439733}
@@ -5527,6 +5591,8 @@ MonoBehaviour:
   - {fileID: 1974731370}
   - {fileID: 2067026715}
   _enemyArray: {fileID: 11400000, guid: dd7943d2c0eed324c88d5e10e76b6de9, type: 2}
+  _detectedEnemyArray: {fileID: 11400000, guid: aa57f98a9def49e44b9495987f86e9c7,
+    type: 2}
 --- !u!114 &1930626137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5563,9 +5629,8 @@ MonoBehaviour:
       m_Calls: []
   _pauseDuration: 1.5
   _playerMoveSet: {fileID: 1976334796}
-  _enemyData: {fileID: 0}
-  _playerHealth: {fileID: 1146940774}
-  _enemyHealth: {fileID: 652548243}
+  _detectedEnemyArray: {fileID: 11400000, guid: aa57f98a9def49e44b9495987f86e9c7,
+    type: 2}
 --- !u!114 &1930626139
 MonoBehaviour:
   m_ObjectHideFlags: 0

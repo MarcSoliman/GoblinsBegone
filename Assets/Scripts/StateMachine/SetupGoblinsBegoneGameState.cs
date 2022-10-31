@@ -6,10 +6,12 @@ public class SetupGoblinsBegoneGameState : GoblinsBegoneState
 {
 
     [SerializeField] private ScriptableArray _enemyArray;
+    [SerializeField] private ScriptableArray _detectedEnemyArray;
     bool _activated = false;
     public override void Enter()
     {
         _enemyArray.Clear();
+        _detectedEnemyArray.Clear();
         _currentStateText.text = "State: Setup";
         Debug.Log("Setup: ...Entering");
         _activated = false;

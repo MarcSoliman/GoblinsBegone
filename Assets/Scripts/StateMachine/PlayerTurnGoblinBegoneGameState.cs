@@ -10,11 +10,11 @@ public class PlayerTurnGoblinBegoneGameState : GoblinsBegoneState
 {
     [SerializeField] TextMeshProUGUI _playerTurnTextUI = null;
     [SerializeField] private GameObject _player;
-    [SerializeField] private PlayerEnemyDetection _playerEnemyDetection;
     [SerializeField] private GameObject _playerMoveSet;
     [SerializeField] private Button[] _playerMoveSetButtons;
     [SerializeField] private ScriptableArray _enemyArray;
-    
+
+    [SerializeField] private ScriptableArray _detectedEnemyArray;
     private GameObject _detectedEnemy;
     private Vector3 _playerBattlePos;
     
@@ -28,8 +28,13 @@ public class PlayerTurnGoblinBegoneGameState : GoblinsBegoneState
         {
             button.interactable = true;
         }
-        _detectedEnemy = _playerEnemyDetection._detectedEnemy;
-        _playerBattlePos = _detectedEnemy.GetComponent<EnemyBase>().PlayerBattlePos;
+        
+        if (_detectedEnemyArray.array.Length > 0)
+            _detectedEnemy = _detectedEnemyArray.array[0];
+        else
+            _detectedEnemy = null;
+
+        if (_detectedEnemy != null) _playerBattlePos = _detectedEnemy.GetComponent<EnemyBase>().PlayerBattlePos;
         _currentStateText.text = "State: Player Turn";
         Debug.Log("Player Turn: ...Entering");
         _playerTurnTextUI.gameObject.SetActive(true);
@@ -40,13 +45,35 @@ public class PlayerTurnGoblinBegoneGameState : GoblinsBegoneState
 
     public override void Tick()
     {
+        //detecting if enemy is still present, edge case for when enemy flees from battle and inflicts self damage
+        if (_detectedEnemyArray.array.Length < 1)
+        {
+            if (_enemyArray.IsEmpty())
+            {
+                _detectedEnemyArray.Clear();
+                _detectedEnemy = null;
+                StateMachine.ChangeState<WinGoblinBegoneGameState>();
+            }
+            else
+            {
+                EnemyArrayDebug();
+                _detectedEnemyArray.Clear();
+                _detectedEnemy = null;
+                StateMachine.ChangeState<WalkingGoblinBegoneGameState>();
+            }
+        }
+
         if (_player.IsDestroyed())
         {
             StateMachine.ChangeState<LoseGoblinBegonGameState>();
             return;
         }
         //player look at enemy
-        _player.transform.LookAt(_detectedEnemy.transform);
+        if (_detectedEnemy != null)
+        {
+            _player.transform.LookAt(_detectedEnemy.transform);
+        }
+       
         //lerp current player location to battle location
         //if player is at battle location, then change state to player battle state
         
@@ -123,15 +150,19 @@ public class PlayerTurnGoblinBegoneGameState : GoblinsBegoneState
     //checks if enemy is dead and/or if there are any enemies left then decides on what state to change to
     private void PlayerBattleStateChange()
     {
-        if (_detectedEnemy.GetComponent<Health>().HealthValue <= 0 || _detectedEnemy == null)
+        if (_detectedEnemy.GetComponent<Health>().HealthValue <= 0 )
         {
             if (_enemyArray.IsEmpty())
             {
+                _detectedEnemyArray.Clear();
+                _detectedEnemy = null;
                 StateMachine.ChangeState<WinGoblinBegoneGameState>();
             }
             else
             {
                 EnemyArrayDebug();
+                _detectedEnemyArray.Clear();
+                _detectedEnemy = null;
                 StateMachine.ChangeState<WalkingGoblinBegoneGameState>();
             }
         }

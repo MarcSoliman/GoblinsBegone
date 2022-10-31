@@ -6,15 +6,15 @@ using UnityEngine;
 public class PlayerEnemyDetection : MonoBehaviour
 {
      public Action OnEnemyDetected = delegate {  };
-     public GameObject _detectedEnemy;
-     public EnemyBase _enemyData;
+     [SerializeField] private ScriptableArray _detectedEnemy;
+    
 
      private void OnTriggerEnter(Collider other)
      {
           if (other.CompareTag("Enemy"))
           {
-               _detectedEnemy = other.gameObject;
-               _enemyData = other.GetComponent<EnemyBase>();
+               _detectedEnemy.Add(other.gameObject);
+               
                OnEnemyDetected?.Invoke();
               
           }
