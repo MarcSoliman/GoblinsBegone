@@ -1617,7 +1617,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 313870586}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1930626136}
+        m_TargetAssemblyTypeName: PlayerTurnGoblinBegoneGameState, Assembly-CSharp
+        m_MethodName: Screech
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &313870586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1954,7 +1966,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 379680399}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1930626136}
+        m_TargetAssemblyTypeName: PlayerTurnGoblinBegoneGameState, Assembly-CSharp
+        m_MethodName: Pounce
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &379680399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2531,7 +2555,7 @@ GameObject:
   - component: {fileID: 908803714}
   - component: {fileID: 908803713}
   m_Layer: 5
-  m_Name: Venom
+  m_Name: FatigueDaze
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2601,7 +2625,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 908803714}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1930626136}
+        m_TargetAssemblyTypeName: PlayerTurnGoblinBegoneGameState, Assembly-CSharp
+        m_MethodName: FatigueDaze
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &908803714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5304,9 +5340,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Venom
-
-'
+  m_text: Fatigue Daze
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5908,7 +5942,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1974731371}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1930626136}
+        m_TargetAssemblyTypeName: PlayerTurnGoblinBegoneGameState, Assembly-CSharp
+        m_MethodName: FearArrow
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1974731371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6242,7 +6288,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2067026716}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1930626136}
+        m_TargetAssemblyTypeName: PlayerTurnGoblinBegoneGameState, Assembly-CSharp
+        m_MethodName: HiveMind
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2067026716
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -150,26 +150,26 @@ public class EnemyBase : MonoBehaviour
         if (_enemyHealth.ActionPoints < 30)
         {
             _weightedValues[0].weight = 0;
-            _weightedValues[1].weight = 2;
+            _weightedValues[1].weight += 2;
             _weightedValues[3].weight += 5;
         }
         else if (_enemyHealth.ActionPoints < 50)
         {
-            _weightedValues[0].weight = 0;
-            _weightedValues[1].weight = 0;
+            _weightedValues[0].weight += 2;
+            _weightedValues[1].weight += 4;
             _weightedValues[3].weight += 4;
         }
         else if (_enemyHealth.ActionPoints < 70)
         {
-            _weightedValues[0].weight = 0;
-            _weightedValues[1].weight = 0;
+            _weightedValues[0].weight += 6;
+            _weightedValues[1].weight += 3;
             _weightedValues[3].weight += 2;
         }
 
         if (_enemyHealth.SanityPoints < _weightedValues[2].sanityCost)
         {
             _weightedValues[2].weight = 0;
-            _weightedValues[3].weight += 6;
+            _weightedValues[4].weight += 8;
         }
         
         return RandomWeighted(_weightedValues);

@@ -111,7 +111,7 @@ public class PlayerTurnGoblinBegoneGameState : GoblinsBegoneState
     public void Pounce()
     {
         if (_detectedEnemy == null) return;
-        _detectedEnemy.GetComponent<EnemyHealth>().OnDamage(50);
+        _detectedEnemy.GetComponent<EnemyHealth>().OnDamage(10);
         print("Pounce!");
         PlayerBattleStateChange();
     }
@@ -127,22 +127,22 @@ public class PlayerTurnGoblinBegoneGameState : GoblinsBegoneState
     public void FearArrow()
     {
         if (_detectedEnemy == null) return;
-        _detectedEnemy.GetComponent<EnemyHealth>().OnDamage(50);
+        _detectedEnemy.GetComponent<EnemyHealth>().updateSanityPoints(25);
         print("Fear Arrow Fired!");
         PlayerBattleStateChange();
     }
     
-    public void Venom()
+    public void FatigueDaze()
     {
         if (_detectedEnemy == null) return;
-        _detectedEnemy.GetComponent<EnemyHealth>().OnDamage(50);
+        _detectedEnemy.GetComponent<EnemyHealth>().updateActionPoints(40);
         print("Venom!");
         PlayerBattleStateChange();
     }
     
     public void HiveMind(){
         if (_detectedEnemy == null) return;
-        _detectedEnemy.GetComponent<EnemyHealth>().OnDamage(50);
+        _detectedEnemy.GetComponent<EnemyHealth>().updateSanityPoints(90);
         print("Hive Mind!");
         PlayerBattleStateChange();
     }
