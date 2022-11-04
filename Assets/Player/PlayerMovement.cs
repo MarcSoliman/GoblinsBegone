@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private bool _lookAt = true;
     [SerializeField] private LayerMask _layerMask;
     private CharacterController controller;
     [SerializeField] private float speedFactor = 10f;
@@ -53,7 +54,8 @@ public class PlayerMovement : MonoBehaviour
         {
 
             target = new Vector3(hit.point.x, transform.position.y, hit.point.z);
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target - transform.position), movingLookAtSpeed * Time.deltaTime);
+            if (_lookAt)
+            { transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target - transform.position), movingLookAtSpeed * Time.deltaTime); }
             if (Input.GetMouseButton(0))
             {
 
@@ -61,7 +63,8 @@ public class PlayerMovement : MonoBehaviour
                 {
                     controller.Move(Vector3.zero);
                     //smoothly rotate towards target
-                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target - transform.position), stationaryLookAtSpeed * Time.deltaTime);
+                    if (_lookAt)
+                    { transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target - transform.position), stationaryLookAtSpeed * Time.deltaTime); }
 
                     return;
                 }
