@@ -17,7 +17,8 @@ public class PlayerTurnGoblinBegoneGameState : GoblinsBegoneState
     [SerializeField] private ScriptableArray _detectedEnemyArray;
     private GameObject _detectedEnemy;
     private Vector3 _playerBattlePos;
-    
+
+
 
     int _playerTurnCount = 0;
 
@@ -28,7 +29,7 @@ public class PlayerTurnGoblinBegoneGameState : GoblinsBegoneState
         {
             button.interactable = true;
         }
-        
+
         if (_detectedEnemyArray.array.Length > 0)
             _detectedEnemy = _detectedEnemyArray.array[0];
         else
@@ -45,6 +46,7 @@ public class PlayerTurnGoblinBegoneGameState : GoblinsBegoneState
 
     public override void Tick()
     {
+        base.Tick();
         //detecting if enemy is still present, edge case for when enemy flees from battle and inflicts self damage
         if (_detectedEnemyArray.array.Length < 1)
         {
@@ -73,10 +75,10 @@ public class PlayerTurnGoblinBegoneGameState : GoblinsBegoneState
         {
             _player.transform.LookAt(_detectedEnemy.transform);
         }
-       
+
         //lerp current player location to battle location
         //if player is at battle location, then change state to player battle state
-        
+
         if (Vector3.Distance(_player.transform.position, _playerBattlePos) > 0.025f)
         {
             _player.transform.position = Vector3.Lerp(_player.transform.position, _playerBattlePos, 2f * Time.deltaTime);
@@ -85,7 +87,7 @@ public class PlayerTurnGoblinBegoneGameState : GoblinsBegoneState
         {
             _player.transform.position = _playerBattlePos;
         }
-        
+
     }
 
     public override void Exit()
@@ -106,8 +108,9 @@ public class PlayerTurnGoblinBegoneGameState : GoblinsBegoneState
         _detectedEnemy.GetComponent<EnemyHealth>().OnDamage(25);
         print("Bite!");
         PlayerBattleStateChange();
+
     }
-    
+
     public void Pounce()
     {
         if (_detectedEnemy == null) return;
@@ -115,7 +118,7 @@ public class PlayerTurnGoblinBegoneGameState : GoblinsBegoneState
         print("Pounce!");
         PlayerBattleStateChange();
     }
-    
+
     public void Screech()
     {
         if (_detectedEnemy == null) return;
@@ -131,7 +134,7 @@ public class PlayerTurnGoblinBegoneGameState : GoblinsBegoneState
         print("Fear Arrow Fired!");
         PlayerBattleStateChange();
     }
-    
+
     public void FatigueDaze()
     {
         if (_detectedEnemy == null) return;
@@ -139,8 +142,9 @@ public class PlayerTurnGoblinBegoneGameState : GoblinsBegoneState
         print("Venom!");
         PlayerBattleStateChange();
     }
-    
-    public void HiveMind(){
+
+    public void HiveMind()
+    {
         if (_detectedEnemy == null) return;
         _detectedEnemy.GetComponent<EnemyHealth>().updateSanityPoints(90);
         print("Hive Mind!");
@@ -150,7 +154,7 @@ public class PlayerTurnGoblinBegoneGameState : GoblinsBegoneState
     //checks if enemy is dead and/or if there are any enemies left then decides on what state to change to
     private void PlayerBattleStateChange()
     {
-        if (_detectedEnemy.GetComponent<Health>().HealthValue <= 0 )
+        if (_detectedEnemy.GetComponent<Health>().HealthValue <= 0)
         {
             if (_enemyArray.IsEmpty())
             {
@@ -171,7 +175,7 @@ public class PlayerTurnGoblinBegoneGameState : GoblinsBegoneState
             StateMachine.ChangeState<EnemyTurnGoblinBegoneGameState>();
         }
     }
-    
+
     //debug.log elements in enemy array
     private void EnemyArrayDebug()
     {

@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 
 public class EnemyTurnGoblinBegoneGameState : GoblinsBegoneState
 {
-    public UnityEvent  EnemyTurnBegan;
+    public UnityEvent EnemyTurnBegan;
     public UnityEvent EnemyTurnEnded;
 
     [SerializeField] private float _pauseDuration = 1.5f;
@@ -26,6 +26,9 @@ public class EnemyTurnGoblinBegoneGameState : GoblinsBegoneState
         _currentStateText.text = "State: Enemy Turn";
         StartCoroutine(EnemyThinkingRoutine(_pauseDuration));
     }
+
+
+
 
     IEnumerator EnemyThinkingRoutine(float pauseDuration)
     {
@@ -49,7 +52,7 @@ public class EnemyTurnGoblinBegoneGameState : GoblinsBegoneState
 
 
 
-  
+
 
 }
 

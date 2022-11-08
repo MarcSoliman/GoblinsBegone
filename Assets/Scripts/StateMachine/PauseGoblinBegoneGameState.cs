@@ -8,14 +8,15 @@ public class PauseGoblinBegoneGameState : GoblinsBegoneState
     public override void Enter()
     {
         _pauseScreen.SetActive(true);
+        _currentStateText.text = "State: Pause";
     }
 
     public void Resume()
     {
-        StateMachine.RevertState();
         Time.timeScale = 1;
+        StateMachine.RevertState();
     }
-    
+
     public override void Exit()
     {
         _pauseScreen.SetActive(false);

@@ -53,6 +53,7 @@ public abstract class StateMachine : MonoBehaviour
         InTransition = true;
 
         _currentState?.Exit();
+        _previousState = _currentState;
         _currentState = newState;
         _currentState?.Enter();
 

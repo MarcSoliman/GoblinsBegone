@@ -45,8 +45,8 @@ public class IKController : MonoBehaviour
 
     private void TakeStep()
     {
-        //if sitance between ik target and steptarget is larger than 2f then move ik target towards step target
-        if (Vector3.Distance(_ik.Target.position, _stepTarget.transform.position) > 2f)
+        //if sitance between ik target and steptarget is larger than .4f then move ik target towards step target
+        if (Vector3.Distance(_ik.Target.position, _stepTarget.transform.position) > 1)
         {
             _isStepping = true;
 
@@ -56,7 +56,7 @@ public class IKController : MonoBehaviour
         {
             // _ik.Target.position = Vector3.Slerp(_ik.Target.position, _stepTarget.transform.position, 1f * Time.deltaTime);
             // _ik.Target.position = Vector3.Slerp(_ik.Target.position - _stepTarget.transform.position, _stepTarget.transform.position, 3f * Time.deltaTime);
-            _stepAnim += Time.deltaTime;
+            _stepAnim += Time.deltaTime * 2.5f;
             _stepAnim = _stepAnim % 1f;
 
 
@@ -81,7 +81,7 @@ public class IKController : MonoBehaviour
     {
 
         //draw line from ik target to step target
-        Gizmos.color = Color.Lerp(Color.green, Color.red, DistanceToStepTarget() / 2f);
+        Gizmos.color = Color.Lerp(Color.green, Color.red, DistanceToStepTarget() / .4f);
         Gizmos.DrawLine(_ik.Target.position, _stepTarget.transform.position);
 
 

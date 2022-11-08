@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -16,9 +17,9 @@ public class LevelManager : MonoBehaviour
 
     public void Replay()
     {
-        Application.LoadLevel(Application.loadedLevel);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Time.timeScale = 1;
-        
+
     }
 
     public void Quit()
@@ -27,6 +28,12 @@ public class LevelManager : MonoBehaviour
         print("Quit");
     }
 
+    public void LoadLevel(string name)
+    {
+        SceneManager.LoadScene(name);
+        Time.timeScale = 1;
+    }
 
-    
+
+
 }

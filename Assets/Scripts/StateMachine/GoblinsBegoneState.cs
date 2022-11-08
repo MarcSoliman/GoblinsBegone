@@ -20,7 +20,7 @@ public class GoblinsBegoneState : State
         {
             Time.timeScale = 0;
             StateMachine.ChangeState<PauseGoblinBegoneGameState>();
-            
+
         }
     }
 }
