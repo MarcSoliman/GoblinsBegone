@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
+    [SerializeField] private AudioClip _deathAudio;
     private float _health = 100;
 
     public float HealthValue => _health;
@@ -13,6 +14,7 @@ public class Health : MonoBehaviour
         _health -= damage;
         if (_health <= 0)
         {
+            FeedbackSpawner.Instance.PlayAudioClip2D(_deathAudio, 1f, .5f, 1.5f, .75f, 1.3f);
             Die();
         }
     }

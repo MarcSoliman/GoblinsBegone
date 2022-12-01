@@ -8,6 +8,8 @@ public class EnemyHealth : Health
     [SerializeField] private ScriptableArray _detectedEnemyArray;
     [SerializeField] private float _actionPoints = 100;
     [SerializeField] private float _sanityPoints = 100;
+
+
         
 
     public float ActionPoints => _actionPoints;
@@ -15,6 +17,7 @@ public class EnemyHealth : Health
     
     protected override void Die()
     {
+        
         _enemyArray.Remove(gameObject);
         _detectedEnemyArray.Remove(gameObject);
         base.Die();

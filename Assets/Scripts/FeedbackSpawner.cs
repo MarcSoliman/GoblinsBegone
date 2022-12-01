@@ -20,7 +20,7 @@ public class FeedbackSpawner : MonoBehaviour
     //function that spawns particle system
     public void SpawnParticleEffect(GameObject particleEffect, Vector3 position)
     {
-        Instantiate(particleEffect, position, Quaternion.identity);
+        Instantiate(particleEffect, position, Quaternion.Euler(0, 0, 0));
      
     }
     
@@ -49,4 +49,8 @@ public class FeedbackSpawner : MonoBehaviour
         return audioSource;
     }
 
+    internal void PlayAudioClip2D(object deathAudio, float v1, float v2, float v3, float v4, float v5)
+    {
+        throw new System.NotImplementedException();
+    }
 }

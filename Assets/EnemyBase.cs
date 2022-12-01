@@ -11,6 +11,26 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] private EnemyHealth _enemyHealth;
     [SerializeField] List<EnemyWeightedMoveValues> _weightedValues;
 
+    [Header("Bludgeon Feedback")]
+    [SerializeField] private GameObject _bludgeonAttackParticle;
+    [SerializeField] private AudioClip _bludgeonAttackAudio;
+
+    [Header("Stab Feedback")]
+    [SerializeField] private GameObject _stabAttackParticle;
+    [SerializeField] private AudioClip _stabAttackAudio;
+
+    [Header("Heal Feedback")]
+    [SerializeField] private GameObject _healAttackParticle;
+    [SerializeField] private AudioClip _healAttackAudio;  
+
+    [Header("Rest Feedback")]
+    [SerializeField] private GameObject _restAttackParticle;
+    [SerializeField] private AudioClip _restAttackAudio;
+
+    [Header("Flee Feedback")]
+    [SerializeField] private GameObject _fleeAttackParticle;
+    [SerializeField] private AudioClip _fleeAttackAudio;
+
     public Vector3 PlayerBattlePos {get; private set; }
 
 
@@ -25,84 +45,11 @@ public class EnemyBase : MonoBehaviour
         _enemyArray.Add(gameObject);
     }
     
+     private void Update() {
+        //look at player
+        transform.LookAt(_playerHealth.transform);
+    }
       
-    //0 = Bludgeon, 1 = stab, 2 = heal, 3 = flee
-
-    // public virtual EnemyWeightedMoveValues EnemyMoveDecision()
-    // {
-    //
-    //     if (_playerHealth.HealthValue > 80)
-    //     {
-    //
-    //         if (_enemyHealth.HealthValue < 60)
-    //         {
-    //             _weightedValues[0].weight = 5;
-    //             _weightedValues[1].weight = 2;
-    //             _weightedValues[2].weight = 4;
-    //             _weightedValues[3].weight = 1;
-    //         }
-    //         else
-    //         {
-    //             _weightedValues[0].weight = 6;
-    //             _weightedValues[1].weight = 3;
-    //             _weightedValues[2].weight = 1;
-    //             _weightedValues[3].weight = 0;
-    //         }
-    //     }
-    //     else if (_playerHealth.HealthValue > 50)
-    //     {
-    //         if (_enemyHealth.HealthValue < 50)
-    //         {
-    //             _weightedValues[0].weight = 2;
-    //             _weightedValues[1].weight = 2;
-    //             _weightedValues[2].weight = 7;
-    //             _weightedValues[3].weight = 1;
-    //         }
-    //         else
-    //         {
-    //             _weightedValues[0].weight = 6;
-    //             _weightedValues[1].weight = 2;
-    //             _weightedValues[2].weight = 2;
-    //             _weightedValues[3].weight = 0;
-    //         }
-    //     }
-    //     else if (_playerHealth.HealthValue > 20)
-    //     {
-    //         if (_enemyHealth.HealthValue < 40)
-    //         {
-    //             _weightedValues[0].weight = 2;
-    //             _weightedValues[1].weight = 1;
-    //             _weightedValues[2].weight = 8;
-    //             _weightedValues[3].weight = 4;
-    //         }
-    //         else
-    //         {
-    //             _weightedValues[0].weight = 6;
-    //             _weightedValues[1].weight = 2;
-    //             _weightedValues[2].weight = 2;
-    //             _weightedValues[3].weight = 1;
-    //         }
-    //     }
-    //     else
-    //     {
-    //         if (_enemyHealth.HealthValue < 30)
-    //         {
-    //             _weightedValues[0].weight = 2;
-    //             _weightedValues[1].weight = 1;
-    //             _weightedValues[2].weight = 7;
-    //             _weightedValues[3].weight = 9;
-    //         }
-    //         else
-    //         {
-    //             _weightedValues[0].weight = 6;
-    //             _weightedValues[1].weight = 2;
-    //             _weightedValues[2].weight = 2;
-    //             _weightedValues[3].weight = 1;
-    //         }
-    //     }
-    //
-    //     return RandomWeighted(_weightedValues);
-    // } 
 
     // [0] = Bludgeon, [1] = stab, [2] = heal, [3] = rest,  [4] = flee
     public virtual EnemyWeightedMoveValues EnemyMoveDecision()
@@ -177,6 +124,33 @@ public class EnemyBase : MonoBehaviour
 
     public void EnemyMove(EnemyWeightedMoveValues decidedMove)
     {
+
+        if (decidedMove.name == "Bludgeon")
+        {
+        FeedbackSpawner.Instance.SpawnParticleEffect(_bludgeonAttackParticle, _playerHealth.transform.position);
+        FeedbackSpawner.Instance.PlayAudioClip2D(_bludgeonAttackAudio, 1f, 0.5f, 2f, 0.75f, 1.75f);
+        }
+        else if (decidedMove.name == "Stab")
+        {
+        FeedbackSpawner.Instance.SpawnParticleEffect(_stabAttackParticle, _playerHealth.transform.position);
+        FeedbackSpawner.Instance.PlayAudioClip2D(_stabAttackAudio, 1f, 0.5f, 2f, 0.75f, 1.75f);
+        }
+        else if (decidedMove.name == "Heal")
+        {
+        FeedbackSpawner.Instance.SpawnParticleEffect(_healAttackParticle, transform.position);
+        FeedbackSpawner.Instance.PlayAudioClip2D(_healAttackAudio, 1f, 0.5f, 2f, 0.75f, 1.75f);
+        }
+        else if (decidedMove.name == "Rest")
+        {
+        FeedbackSpawner.Instance.SpawnParticleEffect(_restAttackParticle, _playerHealth.transform.position);
+        FeedbackSpawner.Instance.PlayAudioClip2D(_restAttackAudio, 1f, 0.5f, 2f, 0.75f, 1.75f);
+        }
+        else if (decidedMove.name == "Flee")
+        {
+        FeedbackSpawner.Instance.SpawnParticleEffect(_fleeAttackParticle, transform.position);
+        FeedbackSpawner.Instance.PlayAudioClip2D(_fleeAttackAudio, 1f, 0.5f, 2f, 0.75f, 1.5f);
+        }
+
         _playerHealth.OnDamage(decidedMove.damage);
         _enemyHealth.OnHeal(decidedMove.healSelf);
         _enemyHealth.OnDamage(decidedMove.damageSelf);
