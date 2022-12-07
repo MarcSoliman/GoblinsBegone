@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -31,6 +32,14 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] private GameObject _fleeAttackParticle;
     [SerializeField] private AudioClip _fleeAttackAudio;
 
+
+    [Header("Move Icons")]
+    [SerializeField] private GameObject _bludgeonIcon;
+    [SerializeField] private GameObject _stabIcon;
+    [SerializeField] private GameObject _healIcon;
+    [SerializeField] private GameObject _restIcon;
+    
+
     public Vector3 PlayerBattlePos {get; private set; }
 
 
@@ -47,6 +56,7 @@ public class EnemyBase : MonoBehaviour
     
      private void Update() {
         //look at player
+        if (_playerHealth == null) return;
         transform.LookAt(_playerHealth.transform);
     }
       
@@ -122,33 +132,58 @@ public class EnemyBase : MonoBehaviour
         return RandomWeighted(_weightedValues);
     }
 
+     private void IconTween(GameObject icon)
+    {
+        icon.GetComponent<SpriteRenderer>().DOFade(1, 1f);
+        icon.transform.DOScale(Vector3.one * 2, 1f)
+        .OnComplete(()=> icon.transform.DOScale(Vector3.one * .8f, .5f));
+        icon.transform.DOJump(icon.transform.position, 2,1, 1.2f).OnComplete(()=>
+        {
+            icon.GetComponent<SpriteRenderer>().DOFade(0, .75f).OnComplete(()=> icon.transform.localScale = Vector3.one*5.6f);
+           
+        });
+    }
+
+     private void PlayerAttackedFeedback()
+     {
+         var enemyRot = _playerHealth.GetComponent<Transform>().transform.rotation;
+         _playerHealth.GetComponent<Transform>().DORotate(enemyRot.eulerAngles + new Vector3(-30, 0, 0), 0.5f)
+             .SetLoops(2, LoopType.Yoyo);
+     }
     public void EnemyMove(EnemyWeightedMoveValues decidedMove)
     {
-
         if (decidedMove.name == "Bludgeon")
         {
         FeedbackSpawner.Instance.SpawnParticleEffect(_bludgeonAttackParticle, _playerHealth.transform.position);
         FeedbackSpawner.Instance.PlayAudioClip2D(_bludgeonAttackAudio, 1f, 0.5f, 2f, 0.75f, 1.75f);
+        PlayerAttackedFeedback();
+        
+        IconTween(_bludgeonIcon);
         }
         else if (decidedMove.name == "Stab")
         {
         FeedbackSpawner.Instance.SpawnParticleEffect(_stabAttackParticle, _playerHealth.transform.position);
         FeedbackSpawner.Instance.PlayAudioClip2D(_stabAttackAudio, 1f, 0.5f, 2f, 0.75f, 1.75f);
+        PlayerAttackedFeedback();
+        IconTween(_stabIcon);
         }
         else if (decidedMove.name == "Heal")
         {
         FeedbackSpawner.Instance.SpawnParticleEffect(_healAttackParticle, transform.position);
         FeedbackSpawner.Instance.PlayAudioClip2D(_healAttackAudio, 1f, 0.5f, 2f, 0.75f, 1.75f);
+        IconTween(_healIcon);
         }
         else if (decidedMove.name == "Rest")
         {
         FeedbackSpawner.Instance.SpawnParticleEffect(_restAttackParticle, _playerHealth.transform.position);
         FeedbackSpawner.Instance.PlayAudioClip2D(_restAttackAudio, 1f, 0.5f, 2f, 0.75f, 1.75f);
+        IconTween(_restIcon);
         }
         else if (decidedMove.name == "Flee")
         {
         FeedbackSpawner.Instance.SpawnParticleEffect(_fleeAttackParticle, transform.position);
         FeedbackSpawner.Instance.PlayAudioClip2D(_fleeAttackAudio, 1f, 0.5f, 2f, 0.75f, 1.5f);
+
         }
 
         _playerHealth.OnDamage(decidedMove.damage);

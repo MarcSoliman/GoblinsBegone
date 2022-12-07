@@ -4,16 +4,17 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-
+using DG.Tweening;
 
 public class PlayerTurnGoblinBegoneGameState : GoblinsBegoneState
 {
     [SerializeField] TextMeshProUGUI _playerTurnTextUI = null;
     [SerializeField] private GameObject _player;
+    [SerializeField] private GameObject _waypoint;
     [SerializeField] private GameObject _playerMoveSet;
     [SerializeField] private Button[] _playerMoveSetButtons;
     [SerializeField] private ScriptableArray _enemyArray;
-
+    
     [SerializeField] private ScriptableArray _detectedEnemyArray;
     private GameObject _detectedEnemy;
     private Vector3 _playerBattlePos;
@@ -29,6 +30,17 @@ public class PlayerTurnGoblinBegoneGameState : GoblinsBegoneState
         {
             button.interactable = true;
         }
+
+        _waypoint.GetComponent<WayPoint>().enabled = false;
+        
+        //lower alpha of material attached to all waypoint children meshes
+
+        foreach (Transform child in _waypoint.transform)
+        {
+            var material = child.GetComponent<MeshRenderer>().material;
+            material.DOColor(Color.black, "_EmissionColor", 2f);
+        }
+      
 
         if (_detectedEnemyArray.array.Length > 0)
             _detectedEnemy = _detectedEnemyArray.array[0];
@@ -47,6 +59,11 @@ public class PlayerTurnGoblinBegoneGameState : GoblinsBegoneState
     public override void Tick()
     {
         base.Tick();
+        if (_player != null)
+        {
+            _waypoint.transform.position = Vector3.Lerp(_waypoint.transform.position, _player.transform.position,
+                5 * Time.deltaTime);
+        }
         //detecting if enemy is still present, edge case for when enemy flees from battle and inflicts self damage
         if (_detectedEnemyArray.array.Length < 1)
         {
@@ -98,24 +115,34 @@ public class PlayerTurnGoblinBegoneGameState : GoblinsBegoneState
         {
             button.interactable = false;
         }
+        _waypoint.GetComponent<WayPoint>().enabled = true;
         _playerMoveSet.SetActive(false);
     }
 
 
     public void Bite()
     {
-        if (_detectedEnemy == null) return;
-        _detectedEnemy.GetComponent<EnemyHealth>().OnDamage(25);
+        _detectedEnemy?.GetComponent<EnemyHealth>().OnDamage(25);
+        EnemyAttackedFeedback();
         print("Bite!");
         PlayerBattleStateChange();
 
     }
 
+    private void EnemyAttackedFeedback()
+    {
+        var enemyRot = _detectedEnemy.GetComponent<Transform>().transform.rotation;
+        _detectedEnemy.GetComponent<Transform>().DORotate(enemyRot.eulerAngles + new Vector3(-30, 0, 0), 0.5f)
+            .SetLoops(2, LoopType.Yoyo);
+    }
+    
+
     public void Pounce()
     {
         if (_detectedEnemy == null) return;
         _detectedEnemy.GetComponent<EnemyHealth>().OnDamage(10);
-        print("Pounce!");
+
+        EnemyAttackedFeedback();
         PlayerBattleStateChange();
     }
 
@@ -123,7 +150,8 @@ public class PlayerTurnGoblinBegoneGameState : GoblinsBegoneState
     {
         if (_detectedEnemy == null) return;
         _detectedEnemy.GetComponent<EnemyHealth>().OnDamage(50);
-        print("Screeeech!");
+
+        EnemyAttackedFeedback();
         PlayerBattleStateChange();
     }
 
@@ -131,7 +159,8 @@ public class PlayerTurnGoblinBegoneGameState : GoblinsBegoneState
     {
         if (_detectedEnemy == null) return;
         _detectedEnemy.GetComponent<EnemyHealth>().updateSanityPoints(25);
-        print("Fear Arrow Fired!");
+
+        EnemyAttackedFeedback();
         PlayerBattleStateChange();
     }
 
@@ -139,7 +168,8 @@ public class PlayerTurnGoblinBegoneGameState : GoblinsBegoneState
     {
         if (_detectedEnemy == null) return;
         _detectedEnemy.GetComponent<EnemyHealth>().updateActionPoints(40);
-        print("Venom!");
+
+        EnemyAttackedFeedback();
         PlayerBattleStateChange();
     }
 
@@ -147,7 +177,8 @@ public class PlayerTurnGoblinBegoneGameState : GoblinsBegoneState
     {
         if (_detectedEnemy == null) return;
         _detectedEnemy.GetComponent<EnemyHealth>().updateSanityPoints(90);
-        print("Hive Mind!");
+
+        EnemyAttackedFeedback();
         PlayerBattleStateChange();
     }
 

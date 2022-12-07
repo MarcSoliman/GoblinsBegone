@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -11,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float speedFactor = 10f;
     [SerializeField] private float maxSpeed = 10f;
     [SerializeField] private float gravity = -9.81f;
+    [SerializeField] private GameObject _wayPoint;
 
     [SerializeField] private float movingLookAtSpeed = 15f;
     [SerializeField] private float stationaryLookAtSpeed = 5f;
@@ -21,7 +23,6 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
-
     }
 
     private void OnEnable()
@@ -35,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
         SpeedByDistance();
         Gravity();
         ClickToMove();
+        WayPointColor();
     }
 
     void ClickToMove()
@@ -52,23 +54,19 @@ public class PlayerMovement : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, 999, _layerMask))
         {
-
             target = new Vector3(hit.point.x, transform.position.y, hit.point.z);
+            
             if (_lookAt)
-            { transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target - transform.position), movingLookAtSpeed * Time.deltaTime); }
-            if (Input.GetMouseButton(0))
+            { transform.rotation = 
+                Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target - transform.position), movingLookAtSpeed * Time.deltaTime); }
+            
+            if (Vector3.Distance(transform.position, _wayPoint.transform.position) > 0.5f)
             {
-
-                if (Vector3.Distance(transform.position, target) < 0.5f)
-                {
-                    controller.Move(Vector3.zero);
-                    //smoothly rotate towards target
-                    if (_lookAt)
-                    { transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target - transform.position), stationaryLookAtSpeed * Time.deltaTime); }
-
-                    return;
-                }
-                controller.Move(transform.forward * speed * Time.deltaTime);
+                controller.Move((_wayPoint.transform.position - transform.position).normalized * speed * Time.deltaTime);
+            }
+            else
+            {
+                controller.Move(Vector3.zero);
             }
         }
 
@@ -87,5 +85,26 @@ public class PlayerMovement : MonoBehaviour
         float distance = Vector3.Distance(transform.position, target);
         speed = Mathf.Lerp(0, 12, distance / speedFactor);
         speed = Mathf.Clamp(speed, 0, maxSpeed);
+    }
+
+    void WayPointColor()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            foreach (Transform child in _wayPoint.transform)
+            {
+                var material = child.GetComponent<MeshRenderer>().material;
+                material.DOColor(Color.magenta * 3f, "_EmissionColor", 2f);
+            }
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            foreach (Transform child in _wayPoint.transform)
+            {
+                var material = child.GetComponent<MeshRenderer>().material;
+                material.DOColor(Color.magenta * 1f, "_EmissionColor", 2f);
+            }
+        }
     }
 }
